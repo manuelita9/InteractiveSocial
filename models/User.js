@@ -6,7 +6,7 @@ const userSchema = new Schema(
     userName: {
       type: String,
       unique: true,
-      trimmed: true,
+      trim: true,
       required: true,
     },
     email: {
@@ -45,6 +45,10 @@ const userSchema = new Schema(
   }
 );
 
-const User = model('user', userSchema);
+  
+  
+  
+  const User = model('User', userSchema);
 
-module.exports = User;
+  
+  module.exports = { User, Thought };

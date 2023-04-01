@@ -1,33 +1,45 @@
-const { Schema, model } = require('mongoose');
-const assignmentSchema = require('./reaction');
-
-// Schema to create Student model
-const studentSchema = new Schema(
+const thoughtSchema = new Schema(
   {
-    first: {
+    thoughttext: {
       type: String,
       required: true,
-      max_length: 50,
+      minLength: 1,
+      maxLength: 280,
+      
     },
-    last: {
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: timestamp => {
+        // Format the timestamp in the format "YYYY-MM-DD HH:mm:ss"
+        return timestamp.toLocaleString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        });
+      }
+    },
+    username: {
       type: String,
       required: true,
-      max_length: 50,
     },
-    github: {
-      type: String,
-      required: true,
-      max_length: 50,
-    },
-    assignments: [assignmentSchema],
+    reactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Reaction',
+      },
+    ],
   },
   {
-    toJSON: {
-      getters: true,
-    },
+    toJSON: { getters: true },
+    id: false,
   }
 );
 
-const Student = model('student', studentSchema);
 
-module.exports = Student;
+
+const Thought = model('Thought', thoughtSchema);
